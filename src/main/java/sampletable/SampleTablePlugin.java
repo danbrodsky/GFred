@@ -15,19 +15,19 @@
  */
 package sampletable;
 
-import java.util.List;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.util.Set;
-
-import org.jdom.Element;
 
 import docking.ActionContext;
 import docking.action.DockingAction;
+import docking.action.KeyBindingData;
 import docking.action.MenuData;
 import docking.tool.ToolConstants;
 import ghidra.app.ExamplesPluginPackage;
 import ghidra.app.plugin.PluginCategoryNames;
 import ghidra.app.plugin.ProgramPlugin;
-import ghidra.framework.options.ToolOptions;
+import ghidra.app.util.PluginConstants;
 import ghidra.framework.plugintool.*;
 import ghidra.framework.plugintool.mgr.OptionsManager;
 import ghidra.framework.plugintool.util.PluginStatus;
@@ -37,8 +37,6 @@ import ghidra.program.util.ProgramLocation;
 import ghidra.program.util.ProgramSelection;
 import ghidra.util.HelpLocation;
 import ghidra.util.Msg;
-
-import ghidra.GhidraOptions;
 
 //@formatter:off
 @PluginInfo(
@@ -58,19 +56,21 @@ public class SampleTablePlugin extends ProgramPlugin {
 	public SampleTablePlugin(PluginTool tool) {
 		super(tool, true /*location changes*/, true/*selection changes*/);
 
+		this.tool = tool;
 		
 		//provider = new SampleTableProvider(this);
 		
-		optionsMgr = new OptionsManager(tool);
+//		optionsMgr = new OptionsManager(tool);
 		//ToolOptions optionsManager = tool.getOptions("TOOL");
-		Element root = tool.saveToXml(true);
+//		Element root = tool.saveToXml(true);
 
+		createActions();
 		
-		optionsMgr.setConfigState(root.getChild("OPTIONS"));
+//		optionsMgr.setConfigState(root.getChild("OPTIONS"));
 
-		provider = new SampleTableProvider(this, optionsMgr);
-		provider.addToTool();
-		addOptionsAction();
+//		provider = new SampleTableProvider(this);
+//		provider.addToTool();
+//		addOptionsAction();
 	}
 
 	@Override
@@ -114,13 +114,46 @@ public class SampleTablePlugin extends ProgramPlugin {
 		tool.addAction(optionsAction);
 	}
 
+	// FIX: setting keybinds should be delegated to providers that are added to plugins
+	//      However, adding a DialogComponentProvider directly to a plugin does not seem possible
+	//      so this would need an intermediary provider class that can be added to a plugin
+    private void createActions() {
+		
+    	SampleTablePlugin plugin = this;
+        DockingAction showPalette = new DockingAction("cmd-palette show", tool.getName()) {
+            @Override
+            public void actionPerformed(ActionContext context) {
+            	Msg.info(context.toString(), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa");
+//            	build();
+            	//tool.showDialog(cmdDialog);
+//            	tool.showDialog(cmdDialog, tool.getActiveWindow().getFocusOwner());
+
+            	// FIX: The dialog window does not stay at a fixed coordinate, but instead moves upwards each reopen
+				SampleTableProvider cmdDialog = new SampleTableProvider(plugin);
+                tool.showDialog( cmdDialog, tool.getComponentProvider( 
+                        PluginConstants.CODE_BROWSER ));
+
+            }
+        };			
+        showPalette.setEnabled(true);
+        showPalette.setKeyBindingData(new KeyBindingData(KeyEvent.VK_P, InputEvent.ALT_DOWN_MASK));
+		// TODO: add help info	
+		
+		
+
+		tool.addAction(showPalette);
+		//tool.addAction(showPalette);
+
+//		addLocalAction(saveTableDataAction);
+	}
+
 	public Function getFunction() {
 		return currentFunction;
 	}
 
-	public List<FunctionAlgorithm> getAlgorithms() {
-		return provider.getAlgorithms();
-	}
+//	public List<FunctionAlgorithm> getAlgorithms() {
+//		return provider.getAlgorithms();
+//	}
 
 	public boolean resetExisingTableData() {
 		return provider.resetExistingTableData();
@@ -130,4 +163,6 @@ public class SampleTablePlugin extends ProgramPlugin {
 	protected void dispose() {
 		provider.dispose();
 	}
+
+
 }
