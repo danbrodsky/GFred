@@ -1,0 +1,28 @@
+#+TITLE: Readme
+
+* GFred
+
+[[/screenshots/gfred.png]]
+
+This is a command palette plugin for Ghidra, meant to give access to hidden or difficult-to-find commands in the same way that the (similarly-named) [[https://github.com/Jinmo/ifred][ifred]] plugin does for IDA.
+
+** Installation
+A build for Ghidra 9.2.0 is available in the ~dist/~ directory. Opening Ghidra and going to ~File->Install Extensions...->Add extensions~ and selecting the zip file from ~dist/~ will add the plugin.
+
+If you'd like to develop this plugin or build it yourself, I've included the necessary gradle and eclipse project files. Follow this [[https://pedrojavier.com/devblog/tutorialwritingaghidraloader/][guide]] for setting up Eclipse with Ghidra and then import this project.
+
+** Usage
+The command palette is by default bound to ~ALT-P~. You can select any command available in the current context from the plugin, and execute it by pressing either ~Enter~ or double-clicking. You can also press ~ESC~ to close the palette.
+
+** Features
+- access any available command instantly
+- filter search
+- context-sensitive action selection (WIP)
+
+** TODO
+I'm pretty fed up with Swing at the moment, so it'll probably be a while before I get around to any of these.
+- [ ] Fixing context-based sorting for displayed actions
+- [ ] fix broken context-sensitive commands
+- [ ] reorder class hierarchy so dialog is handled only by the provider
+- [ ] Make palette always open at fixed position (this may be a window manager issue on my end)
+- [ ] UI improvements
