@@ -18,16 +18,22 @@ package sampletable;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
 
 import ghidra.framework.plugintool.dialog.KeyBindingsPanel;
+import docking.MultiActionDialog;
 import docking.ActionContext;
+import docking.ComponentProvider;
 import docking.DialogComponentProvider;
+import docking.ExecutableAction;
 import docking.action.*;
 import docking.actions.KeyBindingUtils;
+import docking.event.mouse.GMouseListenerAdapter;
 import docking.tool.ToolConstants;
 import ghidra.app.util.PluginConstants;
 import ghidra.framework.plugintool.PluginTool;
@@ -43,15 +49,15 @@ public class SampleTableProvider extends DialogComponentProvider {
 
 	private SampleTablePlugin plugin;
     private DockingAction showPalette;
-	private KeyBindingsPanel panel;
+	private CommandPanel panel;
 	private PluginTool tool;
 
 	private boolean resetTableData;
 	
 
-	public SampleTableProvider(SampleTablePlugin plugin) {
+	public SampleTableProvider(SampleTablePlugin plugin,  ActionContext context) {
 
-		super("CommandDialog.Foofoo", true, false, true, false);
+		super("CommandDialog.Foofoo", true, false, true, true);
 //		super("Command Palette");
 		this.plugin = plugin;
 		tool = plugin.getTool();
@@ -59,7 +65,7 @@ public class SampleTableProvider extends DialogComponentProvider {
     	Msg.info(tool.toString(), "BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBbbbb");
 
 
-		buildCommandPanel();
+		buildCommandPanel(context);
 		addWorkPanel(panel);
 
 //		createActions();
@@ -72,7 +78,7 @@ public class SampleTableProvider extends DialogComponentProvider {
 //		installEscapeAction();
 
 		// TODO: set initial focus on filter field
-//		setFocusComponent(panel.getFocusComponent());
+		setFocusComponent(panel.getTableFilterPanel());
 		//opt = new OptionsManager(tool);
 		//ToolOptions optionsManager = tool.getOptions("TOOL");
 		
@@ -134,9 +140,51 @@ public class SampleTableProvider extends DialogComponentProvider {
 //	}
 	
 	// TODO: remove excess widgets (custom panel implementation)
-	private void buildCommandPanel() {
+	private void buildCommandPanel(ActionContext context) {
 		// Msg.info(tool.getOptions(ToolConstants.KEY_BINDINGS).toString(), "keybind info");
-		panel = new KeyBindingsPanel(tool, tool.getOptions(ToolConstants.KEY_BINDINGS));
+		panel = new CommandPanel(tool, tool.getOptions(ToolConstants.KEY_BINDINGS), context);
+
+		panel.getActionTable().addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent evt) {
+				if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+					evt.consume();
+					okCallback();
+
+				}
+				else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+					evt.consume();
+					close();
+				}
+
+			}
+		});
+		panel.getActionTable().addMouseListener(new GMouseListenerAdapter() {
+			@Override
+			public void doubleClickTriggered(MouseEvent e) {
+				maybeDoAction();
+			}
+		});
+	}
+	
+	@Override
+	public void okCallback() {
+		maybeDoAction();
+	}
+
+	private void maybeDoAction() {
+		String name = panel.getSelectedActionName();
+		if (name == null) {
+			return;
+		}
+
+		ExecutableAction action = panel.getAction();
+		if (action == null)
+			return;
+
+		close();
+
+		action.execute();
 	}
 
 //	private JPanel buildButtonsPanel() {

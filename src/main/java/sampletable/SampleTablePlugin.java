@@ -20,6 +20,7 @@ import java.awt.event.KeyEvent;
 import java.util.Set;
 
 import docking.ActionContext;
+import docking.DockingWindowManager;
 import docking.action.DockingAction;
 import docking.action.KeyBindingData;
 import docking.action.MenuData;
@@ -37,6 +38,7 @@ import ghidra.program.util.ProgramLocation;
 import ghidra.program.util.ProgramSelection;
 import ghidra.util.HelpLocation;
 import ghidra.util.Msg;
+import ghidra.util.Swing;
 
 //@formatter:off
 @PluginInfo(
@@ -129,9 +131,10 @@ public class SampleTablePlugin extends ProgramPlugin {
 //            	tool.showDialog(cmdDialog, tool.getActiveWindow().getFocusOwner());
 
             	// FIX: The dialog window does not stay at a fixed coordinate, but instead moves upwards each reopen
-				SampleTableProvider cmdDialog = new SampleTableProvider(plugin);
-                tool.showDialog( cmdDialog, tool.getComponentProvider( 
-                        PluginConstants.CODE_BROWSER ));
+				SampleTableProvider cmdDialog = new SampleTableProvider(plugin, context);
+				Swing.runLater(() -> DockingWindowManager.showDialog(cmdDialog));
+                //tool.showDialog( cmdDialog, tool.getComponentProvider( 
+                //       PluginConstants.CODE_BROWSER ));
 
             }
         };			
