@@ -60,19 +60,7 @@ public class SampleTablePlugin extends ProgramPlugin {
 
 		this.tool = tool;
 		
-		//provider = new SampleTableProvider(this);
-		
-//		optionsMgr = new OptionsManager(tool);
-		//ToolOptions optionsManager = tool.getOptions("TOOL");
-//		Element root = tool.saveToXml(true);
-
 		createActions();
-		
-//		optionsMgr.setConfigState(root.getChild("OPTIONS"));
-
-//		provider = new SampleTableProvider(this);
-//		provider.addToTool();
-//		addOptionsAction();
 	}
 
 	@Override
@@ -125,38 +113,23 @@ public class SampleTablePlugin extends ProgramPlugin {
         DockingAction showPalette = new DockingAction("cmd-palette show", tool.getName()) {
             @Override
             public void actionPerformed(ActionContext context) {
-            	Msg.info(context.toString(), "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa");
-//            	build();
-            	//tool.showDialog(cmdDialog);
-//            	tool.showDialog(cmdDialog, tool.getActiveWindow().getFocusOwner());
+            	Msg.debug(context.toString(), "command palette opened | GFred");
 
             	// FIX: The dialog window does not stay at a fixed coordinate, but instead moves upwards each reopen
 				SampleTableProvider cmdDialog = new SampleTableProvider(plugin, context);
 				Swing.runLater(() -> DockingWindowManager.showDialog(cmdDialog));
-                //tool.showDialog( cmdDialog, tool.getComponentProvider( 
-                //       PluginConstants.CODE_BROWSER ));
-
             }
         };			
         showPalette.setEnabled(true);
         showPalette.setKeyBindingData(new KeyBindingData(KeyEvent.VK_P, InputEvent.ALT_DOWN_MASK));
 		// TODO: add help info	
 		
-		
-
 		tool.addAction(showPalette);
-		//tool.addAction(showPalette);
-
-//		addLocalAction(saveTableDataAction);
 	}
 
 	public Function getFunction() {
 		return currentFunction;
 	}
-
-//	public List<FunctionAlgorithm> getAlgorithms() {
-//		return provider.getAlgorithms();
-//	}
 
 	public boolean resetExisingTableData() {
 		return provider.resetExistingTableData();
