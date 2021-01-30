@@ -1,12 +1,9 @@
-package sampletable;
+package gfred;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-
-import javax.swing.*;
-
 
 import docking.ActionContext;
 import docking.DialogComponentProvider;
@@ -17,14 +14,14 @@ import ghidra.framework.plugintool.PluginTool;
 import ghidra.util.*;
 
 // TODO: rename to GFred and remove dead code
-public class SampleTableProvider extends DialogComponentProvider {
+public class CommandPaletteProvider extends DialogComponentProvider {
 
 	private CommandPanel panel;
 	private PluginTool tool;
-	private SampleTablePlugin plugin;
+	private GFredPlugin plugin;
 	
 
-	public SampleTableProvider(SampleTablePlugin plugin,  ActionContext context) {
+	public CommandPaletteProvider(GFredPlugin plugin,  ActionContext context) {
 
 		super("CommandDialog.Foofoo", true, false, true, true);
 		tool = plugin.getTool();
@@ -108,7 +105,7 @@ public class SampleTableProvider extends DialogComponentProvider {
 	// TODO: remove Plugin name from matches?
 //	private void createActions() {
 //		
-//		SampleTableProvider cmdDialog = this;
+//		GFredProvider cmdDialog = this;
 //        showPalette = new DockingAction("command palette show", plugin.getName()) {
 //            @Override
 //            public void actionPerformed(ActionContext context) {

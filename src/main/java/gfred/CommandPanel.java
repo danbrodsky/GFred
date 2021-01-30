@@ -1,4 +1,4 @@
-package sampletable;
+package gfred;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -330,18 +330,18 @@ public class CommandPanel extends JPanel {
 	}
 
 
-	private boolean isValidAndEnabled(ActionData actionData, ActionContext context) {
+	private boolean isValidAndEnabled(ActionData actionData, ActionContext ctx) {
 		DockingActionIf a = actionData.action;
-		return a.isValidContext(context) && a.isEnabledForContext(context);
+		return a.isValidContext(ctx) && a.isEnabledForContext(ctx);
 	}
 
-	private boolean isValidAndEnabledGlobally(ActionData actionData, ActionContext context) {
+	private boolean isValidAndEnabledGlobally(ActionData actionData, ActionContext ctx) {
 		// the context may be null when we don't want global action such as when getting actions
 		// for a dialog
 		if (context == null) {
 			return false;
 		}
-		return actionData.supportsDefaultToolContext() && isValidAndEnabled(actionData, context);
+		return actionData.supportsDefaultToolContext() && isValidAndEnabled(actionData, ctx);
 	}
 
 

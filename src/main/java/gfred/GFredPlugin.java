@@ -1,27 +1,18 @@
-package sampletable;
+package gfred;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
-import java.util.Set;
 
 import docking.ActionContext;
 import docking.DockingWindowManager;
 import docking.action.DockingAction;
 import docking.action.KeyBindingData;
-import docking.action.MenuData;
-import docking.tool.ToolConstants;
 import ghidra.app.ExamplesPluginPackage;
 import ghidra.app.plugin.PluginCategoryNames;
 import ghidra.app.plugin.ProgramPlugin;
-import ghidra.app.services.ConsoleService;
 import ghidra.framework.plugintool.*;
-import ghidra.framework.plugintool.mgr.OptionsManager;
 import ghidra.framework.plugintool.util.PluginStatus;
-import ghidra.program.model.listing.Function;
-import ghidra.program.model.listing.FunctionManager;
-import ghidra.program.util.ProgramLocation;
 import ghidra.program.util.ProgramSelection;
-import ghidra.util.HelpLocation;
 import ghidra.util.Msg;
 import ghidra.util.Swing;
 
@@ -34,9 +25,9 @@ import ghidra.util.Swing;
 	description = "Sample plugin for creating and manipulating a table"
 )
 //@formatter:on
-public class SampleTablePlugin extends ProgramPlugin {
+public class GFredPlugin extends ProgramPlugin {
 
-	public SampleTablePlugin(PluginTool tool) {
+	public GFredPlugin(PluginTool tool) {
 		super(tool, true /*location changes*/, true/*selection changes*/);
 
 		this.tool = tool;
@@ -54,12 +45,12 @@ public class SampleTablePlugin extends ProgramPlugin {
 	//      so this would need an intermediary provider class that can be added to a plugin
     private void createActions() {
 		
-    	SampleTablePlugin plugin = this;
+    	GFredPlugin plugin = this;
         DockingAction showPalette = new DockingAction("cmd-palette show", tool.getName()) {
             @Override
             public void actionPerformed(ActionContext context) {
             	// FIX: The dialog window does not stay at a fixed coordinate, but instead moves upwards each reopen
-				SampleTableProvider cmdDialog = new SampleTableProvider(plugin, context);
+				CommandPaletteProvider cmdDialog = new CommandPaletteProvider(plugin, context);
 				Swing.runLater(() -> DockingWindowManager.showDialog(cmdDialog));
             }
         };			
