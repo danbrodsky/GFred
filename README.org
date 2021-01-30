@@ -19,7 +19,7 @@ The command palette is by default bound to ~ALT-P~. You can select any command a
 - filter search
 - context-sensitive action selection (WIP)
 
-** TODO
+** Improvements
 I'm pretty fed up with Swing at the moment, so it'll probably be a while before I get around to any of these.
 - [ ] Fixing context-based sorting for displayed actions
 - [ ] fix broken context-sensitive commands
