@@ -7,7 +7,6 @@ import docking.ActionContext;
 import docking.DockingWindowManager;
 import docking.action.DockingAction;
 import docking.action.KeyBindingData;
-import ghidra.app.ExamplesPluginPackage;
 import ghidra.app.plugin.PluginCategoryNames;
 import ghidra.app.plugin.ProgramPlugin;
 import ghidra.framework.plugintool.*;
@@ -19,10 +18,10 @@ import ghidra.util.Swing;
 //@formatter:off
 @PluginInfo(
 	status = PluginStatus.RELEASED,
-	packageName = ExamplesPluginPackage.NAME,
-	category = PluginCategoryNames.EXAMPLES,
-	shortDescription = "Sample Table Plugin",
-	description = "Sample plugin for creating and manipulating a table"
+	packageName = "GFred",
+	category = PluginCategoryNames.NAVIGATION,
+	shortDescription = "Command Palette for Ghidra",
+	description = "Select and execute any available Action"
 )
 //@formatter:on
 public class GFredPlugin extends ProgramPlugin {
@@ -46,7 +45,7 @@ public class GFredPlugin extends ProgramPlugin {
     private void createActions() {
 		
     	GFredPlugin plugin = this;
-        DockingAction showPalette = new DockingAction("cmd-palette show", tool.getName()) {
+        DockingAction showPalette = new DockingAction("command palette show", tool.getName()) {
             @Override
             public void actionPerformed(ActionContext context) {
             	// FIX: The dialog window does not stay at a fixed coordinate, but instead moves upwards each reopen

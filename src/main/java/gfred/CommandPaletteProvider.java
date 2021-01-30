@@ -39,9 +39,6 @@ public class CommandPaletteProvider extends DialogComponentProvider {
 
 		// TODO: set initial focus on filter field
 		setFocusComponent(panel.getTableFilterPanel());
-		
-		// TODO: fix error when closing Ghidra
-
 	}
 
 	public void dispose() {
