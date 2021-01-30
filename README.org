@@ -1,5 +1,3 @@
-#+TITLE: Readme
-
 * GFred
 
 [[/screenshots/gfred.png]]
