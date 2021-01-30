@@ -1,18 +1,3 @@
-/* ###
- * IP: GHIDRA
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *      http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package sampletable;
 
 import java.awt.*;
@@ -49,11 +34,8 @@ public class CommandPanel extends JPanel {
 
 	private GTable actionTable;
 	private CommandTableModel tableModel;
-	private ListSelectionModel selectionModel;
 	private ActionContext context;
 
-	private Map<String, List<String>> actionNamesByKeyStroke = new HashMap<>();
-	private Map<String, KeyStroke> keyStrokesByFullName = new HashMap<>();
 	private List<DockingActionIf> tableActions = new ArrayList<>();
 	
 	private List<ActionData> actions = new ArrayList<>();
@@ -107,15 +89,6 @@ public class CommandPanel extends JPanel {
 	}
 
 
-	public void reload() {
-		Swing.runLater(() -> {
-			// clear the current user key stroke so that it does not appear as though the 
-			// user is editing while restoring
-			actionTable.clearSelection();
-
-		});
-	}
-
 	private void createActionMap() {
 
 		String longestName = "";
@@ -156,17 +129,16 @@ public class CommandPanel extends JPanel {
 		actionTable.setFont(f);
 
 		JScrollPane sp = new JScrollPane(actionTable);
-		actionTable.setPreferredScrollableViewportSize(new Dimension(400, 100));
 		actionTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		actionTable.setHTMLRenderingEnabled(true);
 		
         // FIX: sort table by context
-		TableRowSorter<CommandTableModel> sorter = new TableRowSorter<CommandTableModel>(tableModel);
-		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-		sortKeys.add(new RowSorter.SortKey(2, SortOrder.DESCENDING));
-		sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
-		sorter.setSortKeys(sortKeys);
-		actionTable.setRowSorter(sorter);
+//		TableRowSorter<CommandTableModel> sorter = new TableRowSorter<CommandTableModel>(tableModel);
+//		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+//		sortKeys.add(new RowSorter.SortKey(2, SortOrder.DESCENDING));
+//		sortKeys.add(new RowSorter.SortKey(0, SortOrder.ASCENDING));
+//		sorter.setSortKeys(sortKeys);
+//		actionTable.setRowSorter(sorter);
 
 		adjustTableColumns();
 
