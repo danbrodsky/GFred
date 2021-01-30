@@ -66,7 +66,7 @@ public class CommandPanel extends JPanel {
 						actions.add(new ActionData(action, context.getComponentProvider()));
 				}
 			} catch (Exception e) {
-				Msg.debug(action.toString(), "| Failed to load Action {GFred}");
+				Msg.debug(action.toString(), ", Failed to load Action | GFred");
 			}
 		}
 		
@@ -387,7 +387,9 @@ public class CommandPanel extends JPanel {
 		TableColumn column = actionTable.getColumn(actionTable.getColumnName(ACTION_NAME));
 		column.setPreferredWidth(250);
 		column = actionTable.getColumn(actionTable.getColumnName(PLUGIN_NAME));
-		column.setPreferredWidth(150);
+		column.setPreferredWidth(250);
+		column = actionTable.getColumn(actionTable.getColumnName(CONTEXT));
+		column.setPreferredWidth(100);
 	}
 
 	public DockingActionIf getSelectedAction() {
@@ -442,6 +444,8 @@ public class CommandPanel extends JPanel {
 		
 		private String getContext(DockingActionIf action) {
 			
+			
+			try {
 			ActionContext globalContext = tool.getDefaultToolContext();
 			if (action.isEnabledForContext(context) && action.isEnabledForContext(globalContext)) {
 				return "global";
@@ -449,6 +453,9 @@ public class CommandPanel extends JPanel {
 
 			if (action.isEnabledForContext(context) && !action.isEnabledForContext(globalContext)) {
 				return "local";
+			}
+			} catch (Exception e) {
+				return "global";
 			}
 			return "unknown";
 		}

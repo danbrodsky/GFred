@@ -30,7 +30,7 @@ public class SampleTableProvider extends DialogComponentProvider {
 		tool = plugin.getTool();
 		this.plugin = plugin;
 
-    	Msg.info(tool.toString(), "Command palette opened | GFred");
+    	Msg.debug(tool.toString(), "Command palette opened | GFred");
 
 		buildCommandPanel(context);
 		addWorkPanel(panel);
@@ -58,14 +58,13 @@ public class SampleTableProvider extends DialogComponentProvider {
 		panel.getActionTable().addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent evt) {
-				if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-					evt.consume();
-					okCallback();
-
-				}
-				else if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
+				if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
 					evt.consume();
 					close();
+				}
+				else if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+					evt.consume();
+					okCallback();
 				}
 
 			}
@@ -126,9 +125,9 @@ public class SampleTableProvider extends DialogComponentProvider {
 //		plugin.getTool().addAction(showPalette);
 //	}
 
-	@Override
-	public JComponent getComponent() {
-		return panel;
-	}
+//	@Override
+//	public JComponent getComponent() {
+//		return panel;
+//	}
 
 }
